@@ -61,9 +61,29 @@ async function updateNote(req, res) {
   }
 }
 
-module.exports = {
-  getAllNotes,
-  createNote,
-  deleteNote,
-  updateNote,
-};
+async function searchNotes(req, res) {
+    const query = req.query.query;
+    if (!query) {
+      return res.status(400).json({ error: 'Query parameter is required' });
+    }
+  console.log(query)
+    try {
+      const notes = await Note.find({
+        $or: [
+          { title: { $regex: query, $options: 'i' } },
+          { content: { $regex: query, $options: 'i' } },
+        ],
+      });
+      res.json(notes);
+    } catch (err) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  
+  module.exports = {
+    getAllNotes,
+    createNote,
+    deleteNote,
+    updateNote,
+    searchNotes, 
+  };

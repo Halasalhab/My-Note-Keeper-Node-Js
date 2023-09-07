@@ -5,11 +5,12 @@ const {
   createNote,
   deleteNote,
   updateNote,
+  searchNotes,
 } = require('../controllers/noteController');
 
 // GET all notes
 router.get('/notes', getAllNotes);
-    
+
 // POST a new note
 router.post('/notes', createNote);
 
@@ -18,5 +19,8 @@ router.delete('/notes/:id', deleteNote);
 
 // PUT (update) a specific note
 router.put('/notes/:id', updateNote);
+
+// GET notes by search query
+router.get('/notes/search', searchNotes);
 
 module.exports = router;
