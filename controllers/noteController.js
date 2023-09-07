@@ -62,18 +62,15 @@ async function updateNote(req, res) {
 }
 
 async function searchNotes(req, res) {
-    const query = req.query.query;
+    const query = req.query;
     if (!query) {
       return res.status(400).json({ error: 'Query parameter is required' });
     }
-  console.log(query)
     try {
-      const notes = await Note.find({
-        $or: [
-          { title: { $regex: query, $options: 'i' } },
-          { content: { $regex: query, $options: 'i' } },
-        ],
-      });
+      const notes = await Note.find(
+          { title: { $regex: new RegExp(query.title), $options: 'i' } ,
+          content: { $regex:  new RegExp(query.content), $options: 'i' } }
+      );
       res.json(notes);
     } catch (err) {
       res.status(500).json({ error: 'Internal server error' });
