@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const noteRoutes = require('./routes/noteRoutes'); 
+const noteRoutes = require('./routes/noteRoutes');
+const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000;
-
+const port = process.env.PORT || 3001;
+app.use(cors());
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/notes', {
+mongoose.connect('mongodb://127.0.0.1:27017/notes', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
